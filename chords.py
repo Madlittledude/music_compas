@@ -180,6 +180,9 @@ def format_chord_notes_for_display(selected_notes, related_notes):
 
 
 
+
+
+
 def show_related_chords_section(root_note, chord_type):
     selected_chord_notes = calculate_chord_notes(root_note, chord_type)
     related_chords_categorized = find_related_chords_and_notes_categorized(chord_type, chord_intervals, root_note)
@@ -191,3 +194,99 @@ def show_related_chords_section(root_note, chord_type):
                 formatted_notes = format_chord_notes_for_display(selected_chord_notes, notes)
                 st.markdown(f"    * **{formatted_chord_name}**: {formatted_notes}")
 
+
+
+
+
+chord_symbols = {
+    'major': "",
+    'minor': "m",
+    'dominant_7th': "7",
+    'major_7th': "M7",
+    'minor_7th': "m7",
+    'diminished': "dim",
+    'augmented': "aug",
+    'suspended_2nd': "sus2",
+    'suspended_4th': "sus4",
+    'power': "P",  
+    'diminished_7th': "dim7",
+    'half_diminished_7th': "m7(b5)", 
+    'add9': "add9",
+    'minor_add9': "m(add9)",
+    '6th': "6",
+    'minor_6th': "m6"
+}
+
+
+roman_numeral_intervals = {
+    "Tonic": {"numerals": ["I", "i"], "interval": 0},
+    "Supertonic": {"numerals": ["II", "ii"], "interval": 2},
+    "Mediant": {"numerals": ["III", "iii"], "interval": 4},
+    "Subdominant": {"numerals": ["IV", "iv"], "interval": 5},
+    "Dominant": {"numerals": ["V", "v"], "interval": 7},
+    "Submediant": {"numerals": ["VI", "vi"], "interval": 9},
+    "Leading Tone": {"numerals": ["VII", "vii"], "interval": 11}
+}
+
+def get_chord_type_from_part(part):
+    if part[0].islower():
+        return 'minor'
+    # Updated to handle complex chords and return the exact chord type based on the symbols in the part
+    if "m7(b5)" in part:
+        return 'half_diminished_7th'
+    if "add9" in part:
+        return 'add9'
+    elif "dim7" in part:
+        return 'diminished_7th'
+    elif "m7" in part:
+        return 'minor_7th'
+    elif "M7" in part or "maj7" in part:
+        return 'major_7th'
+    elif "7" in part:
+        return 'dominant_7th'
+    elif "dim" in part:
+        return 'diminished'
+    elif "aug" in part:
+        return 'augmented'
+    elif "sus2" in part:
+        return 'suspended_2nd'
+    elif "sus4" in part:
+        return 'suspended_4th'
+    elif "P" in part:
+        return 'power'
+    # elif "m" in part:
+    #     return 'minor'
+    elif "M" in part or part.isupper():
+        return 'major'
+    else:
+        return 'major'  # Default chord type if no specific symbol is found
+
+
+
+def progression_to_root_notes(root_note, progression):
+    progression_parts = progression.split('-')
+    root_notes = []
+
+    for part in progression_parts:
+        # Remove chord quality symbols to find the interval for the root note of this chord
+        print('part:', part)
+        cleaned_part = part.replace("m", "").replace("M", "").replace("7", "")
+        interval = None
+
+        # Find the interval for the current part
+        for key, value in roman_numeral_intervals.items():
+            if cleaned_part in value["numerals"]:
+                interval = value["interval"]
+                break
+
+        if interval is not None:
+            # Calculate the root note for this chord in the progression
+            root_index = chromatic_scale.index(root_note)
+            note_index = (root_index + interval) % 12
+            new_root_note = chromatic_scale[note_index]
+            root_notes.append(new_root_note)
+        else:
+            # If we couldn't find an interval, just append the root_note as a fallback
+            root_notes.append(root_note)
+
+    return root_notes
