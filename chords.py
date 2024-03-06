@@ -229,8 +229,10 @@ roman_numeral_intervals = {
 }
 
 def get_chord_type_from_part(part):
-    if 'm6' in part:
+    if '6' in part and part[0].islower() :
         return 'minor_6th'
+    elif '6' in part and part[0].isupper():
+        return '6th'
     if part[0].islower():
         return 'minor'
     # Updated to handle complex chords and return the exact chord type based on the symbols in the part
