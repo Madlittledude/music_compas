@@ -229,7 +229,7 @@ roman_numeral_intervals = {
 }
 
 def get_chord_type_from_part(part):
-    if 'm6' is in part:
+    if 'm6' in part:
         return 'minor_6th'
     if part[0].islower():
         return 'minor'
