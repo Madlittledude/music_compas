@@ -272,7 +272,7 @@ def progression_to_root_notes(root_note, progression):
     for part in progression_parts:
         # Remove chord quality symbols to find the interval for the root note of this chord
         print('part:', part)
-        cleaned_part = part.replace("m", "").replace("M", "").replace("7", "")
+        cleaned_part = part.replace("m6","").replace("m", "").replace("M", "").replace("7", "")
         interval = None
 
         # Find the interval for the current part
