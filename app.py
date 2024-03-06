@@ -28,7 +28,7 @@ progression_choices = {
     'Jazz Fusion Progression ------(ii7-V7-Imaj7)': 'ii7-V7-Imaj7',
     'Funky Progression ------------(Iadd9-IV7-IV7-Vadd9)': 'Iadd9-IV7-IV7-Vadd9',
     'Ballad Progression -----------(vi-IV-I-V7)': 'vi-IV-I-V7',
-    'Minor 6th Progression --------(vi-Vm6-I-IV)': 'vi-Vm6-I-IV'
+    'Minor 6th Progression --------(vi-vm6-I-IV)': 'vi-vm6-I-IV'
 }
 
 
