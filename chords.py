@@ -229,6 +229,10 @@ roman_numeral_intervals = {
 }
 
 def get_chord_type_from_part(part):
+    if 'add9' in part and part[0].islower():
+        return 'minor_add9'
+    elif 'add9' in part and part[0].isupper():
+        return 'add9'
     if '6' in part and part[0].islower() :
         return 'minor_6th'
     elif '6' in part and part[0].isupper():
