@@ -12,6 +12,23 @@ from chords import earth_note_colors, _light_note_colors, chord_intervals, calcu
 ### FRETBOARD imports
 from fretboard_visual import guitar_fretboard_visualization
 
+
+# Check if navigation query param is set and redirect
+query_params = st.experimental_get_query_params()
+if 'nav' in query_params and query_params['nav'][0] == 'fretboard_select_FREQ':
+    # Redirect to fretboard_select_FREQ.py
+    st.experimental_set_query_params(app='fretboard_select_FREQ')  # This is a placeholder. Adjust according to your actual redirection method.
+    st.stop()
+
+# Navigation sidebar
+with st.sidebar:
+    if st.button('Go to Fretboard Select FREQ'):
+        # Set query param to navigate
+        st.experimental_set_query_params(nav='fretboard_select_FREQ')
+
+
+
+
 # Streamlit app title
 st.title('Circle of Fifths - Chord Visualizer')
 
