@@ -4,18 +4,12 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(layout="wide")
 
-# Check if navigation query param is set and redirect
-query_params = st.experimental_get_query_params()
-if 'nav' in query_params and query_params['nav'][0] == 'app':
-    # Redirect to app.py
-    st.experimental_set_query_params(app='app')  # This is a placeholder. Adjust according to your actual redirection method.
-    st.stop()
+import streamlit as st
 
-# Navigation sidebar
+# Place this at the start of your fretboard_select_FREQ.py file
 with st.sidebar:
-    if st.button('Go to Main App'):
-        # Set query param to navigate
-        st.experimental_set_query_params(nav='app')
+    st.markdown("[Go to Main App](URL_to_app)", unsafe_allow_html=True)
+
 
 class SineWave:
     def __init__(self, frequency, amplitude=1.0, phase=0.0, sample_rate=44100, duration=1):
