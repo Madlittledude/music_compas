@@ -4,13 +4,6 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(layout="wide")
 
-import streamlit as st
-
-# Place this at the start of your fretboard_select_FREQ.py file
-with st.sidebar:
-    st.markdown("[Go to Main App](URL_to_app)", unsafe_allow_html=True)
-
-
 class SineWave:
     def __init__(self, frequency, amplitude=1.0, phase=0.0, sample_rate=44100, duration=1):
         self.frequency = frequency
