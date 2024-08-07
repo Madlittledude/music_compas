@@ -324,3 +324,34 @@ def get_borrowed_chords(current_mode, tonic):
         borrowed_chords.append((root_note, chord_type, chord_notes, chord_degrees))
     return borrowed_chords
 
+def get_scale_notes_and_degrees(mode, root_note, ascending=True):
+    """
+    Retrieve scale notes and corresponding degrees for a given mode starting from the root note.
+    Args:
+        mode (str): The musical mode for which to retrieve notes and degrees.
+        root_note (str): The root note from which the scale is derived.
+        ascending (bool): Indicates if the scale is ascending or descending (specifically for melodic minor).
+    
+    Returns:
+        tuple: A pair of lists containing the notes and adjusted degrees of the scale.
+    """
+    intervals = mode_intervals.get(mode, [])
+    if not ascending and 'Melodic Minor' in mode:
+        intervals = mode_intervals.get(mode.replace("Ascending", "Descending"), [])
+
+    notes = []
+    degrees = []
+    root_index = chromatic_scale.index(root_note)
+    
+    for interval in intervals:
+        note_index = (root_index + interval) % 12
+        note = chromatic_scale[note_index]
+        degree = interval_to_degree(interval)
+        notes.append(note)
+        degrees.append(degree)
+
+    # Adjust the degrees to account for the presence of a perfect fifth
+    adjusted_degrees = adjust_degrees_for_b6_or_sharp5(degrees)
+    
+    return notes, adjusted_degrees
+
