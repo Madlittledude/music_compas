@@ -77,13 +77,19 @@ def display_borrowed_chords(chords, scale_notes):
     for root, chord_type, notes, degrees in chords:
         root_degree = get_note_degree(root, scale_notes)  # Fetch the degree of the root note
         root_color = degree_colors.get(root_degree, '#FFFFFF')  # Get color based on the degree
-        st.markdown(f"<div style='border-radius: 8px; background-color: {root_color}; padding: 10px; margin-bottom: 10px;'>", unsafe_allow_html=True)
-        st.markdown(f"<h3 style='color: black;'>{root} {format_chord_name(chord_type)}</h3>", unsafe_allow_html=True)
-        cols = st.columns(len(notes))
-        for col, note, degree in zip(cols, notes, degrees):
+        st.markdown(f"""
+        <div style='border-radius: 8px; background-color: {root_color}; padding: 20px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
+            <h3 style='color: black;'>{root} {format_chord_name(chord_type)}</h3>
+            <div style='display: flex; justify-content: space-around; font-size: 16px;'>""", unsafe_allow_html=True)
+        for note, degree in zip(notes, degrees):
             note_color = degree_colors.get(degree, '#FFFFFF')  # Use degree to color-code individual notes
-            col.markdown(f"<div style='text-align: center; font-size: 16px;'><span style='color: black;'><b>{note}</b></span><br><sup style='color: {note_color};'>{degree}</sup></div>", unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
+            st.markdown(f"""
+            <div style='text-align: center; margin: 5px;'>
+                <span style='color: black; font-weight: bold;'>{note}</span><br>
+                <sup style='color: {note_color};'>{degree}</sup>
+            </div>""", unsafe_allow_html=True)
+        st.markdown("</div></div>", unsafe_allow_html=True)
+
 
 
 # def display_borrowed_chords(chords):
