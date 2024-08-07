@@ -70,13 +70,19 @@ degree_colors = {
     }
 def display_borrowed_chords(chords):
     """Displays borrowed chords in a visually appealing card format, each card color-coded by the chord's degree."""
-    for root, chord_type, notes, degrees in chords:
-        root_color = degree_colors.get(degrees[0], '#FFFFFF')  # Default to white if no color is assigned
-        st.markdown(f"<div style='border-radius: 8px; background-color: {root_color}; padding: 10px; margin: 5px;'>", unsafe_allow_html=True)
+    for index, (root, chord_type, notes, degrees) in enumerate(chords):
+        if index == 0:
+            # This is the root chord
+            header_color = degree_colors.get(degrees[0], '#FFFFFF')  # Color based on the first degree
+        else:
+            # Other chords, potentially use a different color logic
+            header_color = degree_colors.get(degrees[0], '#DDDDDD')  # Default to a lighter color
+
+        st.markdown(f"<div style='border-radius: 8px; background-color: {header_color}; padding: 10px; margin: 5px;'>", unsafe_allow_html=True)
         st.markdown(f"<h3 style='color: black;'>{root} {format_chord_name(chord_type)}</h3>", unsafe_allow_html=True)
         cols = st.columns(len(notes))
         for col, note, degree in zip(cols, notes, degrees):
-            color = degree_colors.get(degree, '#FFFFFF')  # Default to white if no degree color is assigned
+            color = degree_colors.get(degree, '#FFFFFF')  # Color for the degrees
             col.markdown(f"<div style='text-align: center; font-size: 16px;'><span style='color: black;'><b>{note}</b></span><br><span style='color: {color};'>{degree}</span></div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
