@@ -100,22 +100,22 @@ def main_streamlit_layout():
     if st.checkbox('Show Mode Details', key='show_mode_details'):
         mode_choice = st.selectbox('Select a mode to explore:', list(mode_intervals.keys()), key='mode_select_details')
         mode_info = mode_descriptions.get(mode_choice, {'simple': 'No description available.', 'deep': ''})
-        st.subheader(f"Details of {mode_choice} Mode")
-        st.write(f"**Simple Description:** {mode_info['simple']}")
-        st.write(f"**Detailed Description:** {mode_info['deep']}")
+        if st.checkbox(f"Show simple description of {mode_choice} mode", key='simple_desc'):
+            st.write(f"**Simple Description:** {mode_info['simple']}")
+        if st.checkbox(f"Show detailed description of {mode_choice} mode", key='detailed_desc'):
+            st.write(f"**Detailed Description:** {mode_info['deep']}")
 
         scale_notes, scale_degrees = get_scale_notes_and_degrees(mode_choice, root_note)
         st.write("### Scale Notes and Degrees")
         num_notes = len(scale_notes)
         cols_notes = st.columns(num_notes)
         cols_degrees = st.columns(num_notes)
-
         for col_note, note in zip(cols_notes, scale_notes):
             col_note.markdown(f"<div style='text-align: center; border: 2px solid gray; padding: 8px; font-weight: bold; font-size: 16px;'>{note}</div>", unsafe_allow_html=True)
-        
         for col_degree, degree in zip(cols_degrees, scale_degrees):
             col_degree.markdown(f"<div style='text-align: center; border: 2px solid gray; padding: 8px; font-size: 14px;'>{degree}</div>", unsafe_allow_html=True)
-   
+            
+
     
 
 
