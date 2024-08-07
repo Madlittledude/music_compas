@@ -77,7 +77,7 @@ def get_note_degree(root_note, scale_notes):
     return '?'
 
 def display_borrowed_chords(chords, scale_notes):
-    """Displays borrowed chords with detailed degree information in a visually appealing card format."""
+    """Displays borrowed chords with detailed degree information in a visually appealing card format, structured in a grid."""
     for root, chord_type, notes, degrees in chords:
         root_degree_index = scale_notes.index(root) if root in scale_notes else None
         root_degree = degree_names.get(root_degree_index, '?')
@@ -87,15 +87,17 @@ def display_borrowed_chords(chords, scale_notes):
         st.markdown(f"""
         <div style='border-radius: 8px; background-color: {root_color}; padding: 20px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
             <h3 style='color: black;'>{root} {format_chord_name(chord_type)} - Degree: {root_degree}</h3>
-            <div style='display: flex; justify-content: space-around; font-size: 16px;'>""", unsafe_allow_html=True)
+            <div style='display: grid; grid-template-columns: repeat({len(notes)}, 1fr); text-align: center; font-size: 16px;'>""", unsafe_allow_html=True)
         for note, relative_degree, absolute_degree in zip(notes, degrees, absolute_degrees):
             note_color = degree_colors.get(relative_degree, '#FFFFFF')  # Use relative degree to color-code individual notes
             st.markdown(f"""
-            <div style='text-align: center; margin: 5px;'>
+            <div style='margin: 5px;'>
                 <span style='color: black; font-weight: bold;'>{note}</span><br>
-                <sup style='color: {note_color};'>Rel: {relative_degree} | Abs: {absolute_degree}</sup>
+                <sup style='color: {note_color};'>Rel: {relative_degree}</sup><br>
+                <sup style='color: {note_color};'>Abs: {absolute_degree}</sup>
             </div>""", unsafe_allow_html=True)
         st.markdown("</div></div>", unsafe_allow_html=True)
+
 
 
 
