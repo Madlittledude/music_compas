@@ -127,7 +127,7 @@ def main_streamlit_layout():
         
     if st.checkbox('Show Borrowed Chords', key='show_borrowed_chords'):
         mode_choice = st.selectbox('Select the mode to borrow from:', list(parallel_modes.keys()), key='mode_selectt_borrowed_chords')
-        borrowed_chords = get_borrowed_chords(mode_choice, root_note)
+        borrowed_chords = get_borrowed_chords(mode_choice)
         if borrowed_chords:
             st.write(f"Borrowed chords from {mode_choice}:")
             for (b_root, b_type, b_notes, b_degrees) in borrowed_chords:
@@ -135,7 +135,7 @@ def main_streamlit_layout():
                 if st.checkbox(f"Show fretboard for {b_root} {format_chord_name(b_type)}", key=f'fretboard_borrowed_{b_root}'):
                     guitar_fretboard_visualization(note_colors, b_notes, b_degrees, show_degrees=True)
                     
-        display_borrowed_chords(borrowed_chords)
+        display_borrowed_chords(borrowed_chords,root_note)
 
     if st.checkbox('Show Mode Details', key='show_mode_details'):
         mode_choice = st.selectbox('Select a mode to explore:', list(mode_intervals.keys()), key='mode_select_details')
