@@ -139,9 +139,11 @@ mode_descriptions = {
     }
 }
 
-def get_scale_notes_and_degrees(mode, root_note):
+def get_scale_notes_and_degrees(mode, root_note, ascending=True):
     """Retrieve scale notes and corresponding degrees for a given mode starting from the root note."""
     intervals = mode_intervals.get(mode, [])
+    if not ascending and 'Melodic Minor' in mode:
+        intervals = mode_intervals.get(mode.replace("Ascending", "Descending"), [])
     notes = []
     degrees = []
     root_index = chromatic_scale.index(root_note)
