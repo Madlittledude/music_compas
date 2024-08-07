@@ -22,6 +22,7 @@ chromatic_scale = [
 ]
 
 
+
 mode_intervals = {
     'Ionian': [0, 2, 4, 5, 7, 9, 11],
     'Dorian': [0, 2, 3, 5, 7, 9, 10],
