@@ -87,18 +87,19 @@ def display_borrowed_chords(chords, scale_notes):
         st.markdown(f"""
         <div style='border-radius: 8px; background-color: {root_color}; padding: 20px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
             <h3 style='color: black; text-align: center;'>{root} {format_chord_name(chord_type)} - Degree: {root_degree}</h3>
-            <div style='display: grid; grid-template-columns: repeat({len(notes)}, 1fr); gap: 10px; padding: 10px;'>""", unsafe_allow_html=True)
+            <div style='display: flex; justify-content: center; align-items: center; font-size: 16px; gap: 20px;'>""", unsafe_allow_html=True)
+        
+        # Use a single flex container for each note and its degrees
         for note, relative_degree, absolute_degree in zip(notes, degrees, absolute_degrees):
             note_color = degree_colors.get(relative_degree, '#FFFFFF')  # Use relative degree to color-code individual notes
             st.markdown(f"""
-            <div style='text-align: center;'>
-                <div style='font-size: 18px; font-weight: bold; color: black;'>{note}</div>
-                <div style='font-size: 16px; color: {note_color};'>Rel: {relative_degree}</div>
-                <div style='font-size: 16px; color: {note_color};'>Abs: {absolute_degree}</div>
+            <div style='text-align: center; margin: 5px;'>
+                <span style='color: black; font-weight: bold; display: block;'>{note}</span>
+                <sup style='color: {note_color}; display: block;'>Rel: {relative_degree}</sup>
+                <sup style='color: {note_color}; display: block;'>Abs: {absolute_degree}</sup>
             </div>""", unsafe_allow_html=True)
+        
         st.markdown("</div></div>", unsafe_allow_html=True)
-
-
 
 
 
