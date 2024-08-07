@@ -112,6 +112,8 @@ def main_streamlit_layout():
                     # Checkbox for each chord's guitar fretboard visualization
                     if st.checkbox(f"Show fretboard for {prog_root} {display_symbol}", key=f'fretboard_{index}'):
                         guitar_fretboard_visualization(note_colors, chord_notes, chord_degrees, show_degrees=True)
+    
+    st.write("\nChecking parallel modes:", parallel_modes)
 
         # Checkbox to show borrowed chords
     if st.checkbox('Show Borrowed Chords', key='show_borrowed_chords'):
