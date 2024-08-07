@@ -46,19 +46,37 @@ def display_scale_notes_and_degrees(notes, degrees):
 
         col_note.markdown(f"<div style='text-align: center; border: 2px solid gray; padding: 8px;'><b>{note}</b></div>", unsafe_allow_html=True)
         col_degree.markdown(f"<div style='text-align: center; border: 2px solid gray; padding: 8px;'><b>{degree}</b></div>", unsafe_allow_html=True)
+
+
+
 def display_borrowed_chords(chords):
-    """Displays borrowed chords in a visually appealing format."""
-    num_chords = len(chords)
-    if num_chords > 0:
-        cols = st.columns(num_chords)
-        for col, (root, chord_type, notes, degrees) in zip(cols, chords):
-            col.markdown(f"""
-            <div style='text-align: center; border: 2px solid gray; padding: 10px; margin: 5px;'>
-                <h4>{root} {format_chord_name(chord_type)}</h4>
-                <p><b>Notes:</b> {' - '.join(notes)}</p>
-                <p><b>Degrees:</b> {' - '.join(degrees)}</p>
-            </div>
-            """, unsafe_allow_html=True)
+    """Displays borrowed chords in a visually appealing format, each note with its degree directly underneath."""
+    
+    for root, chord_type, notes, degrees in chords:
+        st.write(f"{root_note} {format_chord_name(chord_type)}: {chord_notes} = {chord_degrees}")
+    
+        num_notes = len(notes)
+        cols = st.columns(num_notes)  # Create a column for each note in the chord
+        
+        # Display each note with its corresponding degree directly below it
+        for col, note, degree in zip(cols, notes, degrees):
+            col.markdown(f"<div style='text-align: center;'>{note}<br><sup>{degree}</sup></div>", unsafe_allow_html=True)
+
+        st.markdown("---")  # Adds a horizontal line for separation between chords
+
+def format_chord_name(chord_type):
+    """Formats the chord type to use abbreviations like 'M' for Maj7, 'm' for minor, etc."""
+    abbreviations = {
+        'major': '',
+        'minor': 'm',
+        'major_seventh': 'M',
+        'minor_seventh': 'm7',
+        'diminished': '*',
+        'augmented': '+',
+        'dominant_seventh': '7'
+    }
+    return abbreviations.get(chord_type, chord_type)  # Default to raw chord type if no abbreviation is found
+
 
 
 
