@@ -1,5 +1,5 @@
 import streamlit as st
-
+import math
 
 
 ### CIRCLE OF FIFTHS imports
@@ -48,18 +48,17 @@ def display_scale_notes_and_degrees(notes, degrees):
         col_degree.markdown(f"<div style='text-align: center; border: 2px solid gray; padding: 8px;'><b>{degree}</b></div>", unsafe_allow_html=True)
 
 def calculate_color(degree_index, total_degrees):
-    if degree_index <= total_degrees / 2:
-        # Transition from red to green
-        red = 255 - (255 * (2 * degree_index / total_degrees))
-        green = 255 * (2 * degree_index / total_degrees)
-        blue = 0
-    else:
-        # Transition from green to blue
-        red = 0
-        green = 255 - (255 * ((2 * (degree_index - total_degrees / 2) / total_degrees)))
-        blue = 255 * ((2 * (degree_index - total_degrees / 2) / total_degrees))
+    """Generates a cyclical color moving through RGB back to Red."""
+    # Convert degree index to an angle in radians
+    angle = (degree_index / total_degrees) * 2 * math.pi
     
+    # Calculate RGB using sine functions for smooth cycling through red, green, and blue
+    red = math.sin(angle) ** 2 * 255
+    green = math.sin(angle + 2 * math.pi / 3) ** 2 * 255  # Offset by 120 degrees
+    blue = math.sin(angle + 4 * math.pi / 3) ** 2 * 255  # Offset by 240 degrees
+
     return f'#{int(red):02x}{int(green):02x}{int(blue):02x}'
+
 
 # Generate colors for each degree based on their index
 degree_list = list(degree_names.values())
