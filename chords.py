@@ -310,4 +310,17 @@ parallel_modes = {
 }
 
 
+def get_borrowed_chords(current_mode, tonic):
+    if current_mode not in parallel_modes:
+        return []
+    parallel_mode = parallel_modes[current_mode]
+    parallel_intervals = mode_intervals[parallel_mode]
+    borrowed_chords = []
+    for degree in parallel_intervals:
+        root_note_index = (chromatic_scale.index(tonic) + degree) % 12
+        root_note = chromatic_scale[root_note_index]
+        chord_type = 'major' if degree % 2 == 0 else 'minor'  # Simplification for demonstration
+        chord_notes, chord_degrees = calculate_chord_notes(root_note, chord_type)
+        borrowed_chords.append((root_note, chord_type, chord_notes, chord_degrees))
+    return borrowed_chords
 
