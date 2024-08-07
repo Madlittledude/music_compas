@@ -9,7 +9,7 @@ from circle_of_fifths import draw_circle_of_fifths
 from note_sets import get_scale_notes_and_degrees, mode_descriptions
 
 ### CHORD imports
-from chords import   mode_intervals, parallel_modes, get_borrowed_chords, earth_note_colors, _light_note_colors, chord_intervals, calculate_chord_notes, circle_of_fifths_notes, format_chord_name,progression_to_root_notes, chord_symbols, get_chord_type_from_part
+from chords import   degree_name, mode_intervals, parallel_modes, get_borrowed_chords, earth_note_colors, _light_note_colors, chord_intervals, calculate_chord_notes, circle_of_fifths_notes, format_chord_name,progression_to_root_notes, chord_symbols, get_chord_type_from_part
 
 ### FRETBOARD imports
 from fretboard_visual import guitar_fretboard_visualization
