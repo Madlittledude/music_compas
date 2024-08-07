@@ -77,24 +77,25 @@ def get_note_degree(root_note, scale_notes):
     return '?'
 
 def display_borrowed_chords(chords, scale_notes):
-    """Displays borrowed chords with detailed degree information in a visually appealing card format, structured in a grid."""
+    """Displays borrowed chords with detailed degree information in a visually appealing card format, with a neat internal grid."""
     for root, chord_type, notes, degrees in chords:
         root_degree_index = scale_notes.index(root) if root in scale_notes else None
         root_degree = degree_names.get(root_degree_index, '?')
-        root_color = degree_colors.get(root_degree, '#FFFFFF')  # Get color based on the root degree
+        root_color = degree_colors.get(root_degree, '#FFFFFF')  # Determine the background color based on the root degree
         absolute_degrees = get_absolute_and_relative_degrees(notes, scale_notes)
 
+        # Create a responsive grid within each card for notes and their degrees
         st.markdown(f"""
         <div style='border-radius: 8px; background-color: {root_color}; padding: 20px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
-            <h3 style='color: black;'>{root} {format_chord_name(chord_type)} - Degree: {root_degree}</h3>
-            <div style='display: grid; grid-template-columns: repeat({len(notes)}, 1fr); text-align: center; font-size: 16px;'>""", unsafe_allow_html=True)
+            <h3 style='color: black; text-align: center;'>{root} {format_chord_name(chord_type)} - Degree: {root_degree}</h3>
+            <div style='display: grid; grid-template-columns: repeat({len(notes)}, 1fr); text-align: center; gap: 10px;'>""", unsafe_allow_html=True)
         for note, relative_degree, absolute_degree in zip(notes, degrees, absolute_degrees):
-            note_color = degree_colors.get(relative_degree, '#FFFFFF')  # Use relative degree to color-code individual notes
+            note_color = degree_colors.get(relative_degree, '#FFFFFF')  # Use relative degree to determine text color
             st.markdown(f"""
-            <div style='margin: 5px;'>
-                <span style='color: black; font-weight: bold;'>{note}</span><br>
-                <sup style='color: {note_color};'>Rel: {relative_degree}</sup><br>
-                <sup style='color: {note_color};'>Abs: {absolute_degree}</sup>
+            <div>
+                <div style='font-weight: bold; color: black;'>{note}</div>
+                <div style='color: {note_color};'>Rel: {relative_degree}</div>
+                <div style='color: {note_color};'>Abs: {absolute_degree}</div>
             </div>""", unsafe_allow_html=True)
         st.markdown("</div></div>", unsafe_allow_html=True)
 
