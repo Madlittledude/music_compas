@@ -7,6 +7,24 @@ In this implementation, we use a simplified model for chord notation that combin
 Specifically, for the diminished 7th chord, we list the 7th degree as '6' instead of the theoretically correct 'bb7' (double flat 7). This decision is made to keep the model simple and accessible, acknowledging that while it may not align with traditional theory's precise notation, it provides a practical and functional understanding suitable for most contemporary music applications. This simplification enables users to easily identify chord components without the need for advanced theory knowledge regarding enharmonic distinctions and double flattened intervals.
 """
 
+def get_color_for_degree(degree):
+    colors = {
+        'R': '#ff0000',  # Red
+        '2': '#ffa500',  # Lighter Red
+        'b2': '#00ff00',  # Green
+        '3': '#ff4500',  # Orange-Red
+        'b3': '#4682b4',  # Blue
+        '4': '#ff8c00',  # Dark Orange
+        '#4': '#008000',  # Dark Green
+        '5': '#ff6347',  # Tomato
+        'b5': '#00ff00',  # Green
+        'b6/#5': '#00ff00',  # Green
+        '6': '#40e0d0',  # Turquoise
+        'b6': '#40e0d0',  # Turquoise
+        '7': '#da70d6',  # Orchid
+        'b7': '#da70d6'   # Orchid
+    }
+    return colors.get(degree, '#000000')  # Default to black if not found
 
 # Define a color gradient from red to violet (using a simple example gradient)
 earth_note_colors = {
