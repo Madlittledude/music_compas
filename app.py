@@ -53,7 +53,7 @@ def display_borrowed_chords(chords,root_note):
     """Displays borrowed chords in a visually appealing format, each note with its degree directly underneath."""
     
     for root, chord_type, notes, degrees in chords:
-        st.write(f"{root_note} {format_chord_name(chord_type)}: {chord_notes} = {chord_degrees}")
+        st.write(f"{root_note} {format_chord_name(chord_type)}: {notes} = {degrees}")
     
         num_notes = len(notes)
         cols = st.columns(num_notes)  # Create a column for each note in the chord
