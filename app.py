@@ -109,13 +109,26 @@ def main_streamlit_layout():
         cols_notes = st.columns(num_notes)
         cols_degrees = st.columns(num_notes)
         
-        # Using markdown for better control over typography and layout
+        # Using markdown with enhanced CSS for better control over typography and layout
         for col_note, note in zip(cols_notes, scale_notes):
-            col_note.markdown(f"<div style='text-align: center; border: 1px solid gray; padding: 8px;'><b>{note}</b></div>", unsafe_allow_html=True)
+            col_note.markdown(f"""
+            <div style='text-align: center; 
+                        border: 2px solid gray; 
+                        padding: 8px;
+                        font-weight: bold; 
+                        font-size: 16px;'>
+                {note}
+            </div>""", unsafe_allow_html=True)
         
         for col_degree, degree in zip(cols_degrees, scale_degrees):
-            col_degree.markdown(f"<div style='text-align: center; border: 1px solid gray; padding: 8px;'>{degree}</div>", unsafe_allow_html=True)
-
+            col_degree.markdown(f"""
+            <div style='text-align: center; 
+                        border: 2px solid gray; 
+                        padding: 8px; 
+                        font-size: 14px;'>
+                {degree}
+            </div>""", unsafe_allow_html=True)
+    
 
 
 main_streamlit_layout()
