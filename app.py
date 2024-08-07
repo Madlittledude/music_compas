@@ -167,13 +167,6 @@ def main_streamlit_layout():
 
 
 
-           if st.checkbox('Show Borrowed Chords', key='show_borrowed_chords'):
-        mode_choice = st.selectbox('Select the mode to borrow from:', list(parallel_modes.keys()), key='mode_select_borrowed_chords')
-        borrowed_chords = get_borrowed_chords(mode_choice, root_note)
-        scale_notes, _ = get_scale_notes_and_degrees(mode_choice, root_note)  # Get scale notes for color mapping
-        if borrowed_chords:
-            st.write(f"Borrowed chords from {mode_choice}:")
-            display_borrowed_chords(borrowed_chords, scale_notes)
         
     if st.checkbox('Show Borrowed Chords', key='show_borrowed_chords'):
         mode_choice = st.selectbox('Select the mode to borrow from:', list(parallel_modes.keys()), key='mode_selectt_borrowed_chords')
