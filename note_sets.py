@@ -139,3 +139,17 @@ mode_descriptions = {
     }
 }
 
+def get_scale_notes_and_degrees(mode, root_note):
+    """Retrieve scale notes and corresponding degrees for a given mode starting from the root note."""
+    intervals = mode_intervals.get(mode, [])
+    notes = []
+    degrees = []
+    root_index = chromatic_scale.index(root_note)
+    for interval in intervals:
+        note_index = (root_index + interval) % 12
+        note = chromatic_scale[note_index]
+        degree = interval_to_degree(interval)
+        notes.append(note)
+        degrees.append(degree)
+    return notes, degrees
+
