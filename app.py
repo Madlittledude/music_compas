@@ -49,21 +49,17 @@ def display_scale_notes_and_degrees(notes, degrees):
 
 
 def display_borrowed_chords(chords):
-    """Displays borrowed chords with color-coded degrees."""
+    """Displays borrowed chords in a visually appealing card format, each card color-coded by the chord's degree."""
     for root, chord_type, notes, degrees in chords:
-        st.markdown(f"#### {root} {format_chord_name(chord_type)}", unsafe_allow_html=True)
-        num_notes = len(notes)
-        cols = st.columns(num_notes)
-        
+        root_color = degree_colors.get(degrees[0], '#FFFFFF')  # Default to white if no color is assigned
+        st.markdown(f"<div style='border-radius: 8px; background-color: {root_color}; padding: 10px; margin: 5px;'>", unsafe_allow_html=True)
+        st.markdown(f"<h3 style='color: black;'>{root} {format_chord_name(chord_type)}</h3>", unsafe_allow_html=True)
+        cols = st.columns(len(notes))
         for col, note, degree in zip(cols, notes, degrees):
-            degree_color = get_degree_color(degree)
-            col.markdown(f"""
-            <div style='text-align: center;'>
-                <span style='font-size: 16px; font-weight: bold;'>{note}</span><br>
-                <span style='font-size: 14px; font-weight: bold; color: {degree_color};'>{degree}</span>
-            </div>
-            """, unsafe_allow_html=True)
-        st.markdown("---")  # Separator for visual clarity
+            color = degree_colors.get(degree, '#FFFFFF')  # Default to white if no degree color is assigned
+            col.markdown(f"<div style='text-align: center; font-size: 16px;'><span style='color: black;'><b>{note}</b></span><br><span style='color: {color};'>{degree}</span></div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
 
 
 # def display_borrowed_chords(chords):
