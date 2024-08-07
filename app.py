@@ -49,7 +49,7 @@ def display_scale_notes_and_degrees(notes, degrees):
 
 
 
-def display_borrowed_chords(chords):
+def display_borrowed_chords(chords,root_note):
     """Displays borrowed chords in a visually appealing format, each note with its degree directly underneath."""
     
     for root, chord_type, notes, degrees in chords:
