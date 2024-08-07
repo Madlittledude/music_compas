@@ -32,14 +32,21 @@ with st.sidebar:
 def display_scale_notes_and_degrees(notes, degrees):
     """Displays scale notes and their corresponding degrees in a visually appealing format."""
     num_notes = len(notes)
-    cols = st.columns(num_notes)
-    # Display the notes at the top
-    for col, note in zip(cols, notes):
-        col.write(f"**{note}**")
-    # Display the degrees at the bottom
-    cols = st.columns(num_notes)
-    for col, degree in zip(cols, degrees):
-        col.write(f"`{degree}`")
+    cols_notes = st.columns(num_notes)
+    cols_degrees = st.columns(num_notes)
+    
+    used_notes = set()  # To track already used notes for enharmonic checks
+
+    for col_note, col_degree, note, degree in zip(cols_notes, cols_degrees, notes, degrees):
+        # Check if the note is an enharmonic equivalent already present
+        if note in used_notes:
+            # Optional logic to handle specific enharmonic issues could be added here
+            note = note + " (enharmonic check needed)"
+        used_notes.add(note)
+
+        col_note.markdown(f"<div style='text-align: center; border: 2px solid gray; padding: 8px;'><b>{note}</b></div>", unsafe_allow_html=True)
+        col_degree.markdown(f"<div style='text-align: center; border: 2px solid gray; padding: 8px;'><b>{degree}</b></div>", unsafe_allow_html=True)
+
 
 # Streamlit app title
 st.title('Circle of Fifths - Chord Visualizer')
