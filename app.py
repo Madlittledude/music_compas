@@ -29,7 +29,17 @@ with st.sidebar:
         st.experimental_set_query_params(nav='fretboard_select_FREQ')
 
 
-
+def display_scale_notes_and_degrees(notes, degrees):
+    """Displays scale notes and their corresponding degrees in a visually appealing format."""
+    num_notes = len(notes)
+    cols = st.columns(num_notes)
+    # Display the notes at the top
+    for col, note in zip(cols, notes):
+        col.write(f"**{note}**")
+    # Display the degrees at the bottom
+    cols = st.columns(num_notes)
+    for col, degree in zip(cols, degrees):
+        col.write(f"`{degree}`")
 
 # Streamlit app title
 st.title('Circle of Fifths - Chord Visualizer')
@@ -80,18 +90,12 @@ def main_streamlit_layout():
                 if st.checkbox(f"Show fretboard for {b_root} {format_chord_name(b_type)}", key=f'fretboard_borrowed_{b_root}'):
                     guitar_fretboard_visualization(note_colors, b_notes, b_degrees, show_degrees=True)
 
-    # New section for selecting and displaying mode descriptions and scale details
-    if st.checkbox('Show Mode Descriptions and Scale Details', key='show_mode_details'):
+    if st.checkbox('Show Mode Details', key='show_mode_details'):
         mode_choice = st.selectbox('Select a mode to explore:', list(mode_intervals.keys()), key='mode_select')
-        mode_info = mode_descriptions.get(mode_choice, {'simple': 'No description available.', 'deep': ''})
-        st.subheader(f"Description of {mode_choice} Mode")
-        st.write(mode_info['simple'])
-        st.write(mode_info['deep'])
-
-        # Fetch and display notes and degrees for the selected mode
         scale_notes, scale_degrees = get_scale_notes_and_degrees(mode_choice, root_note)
-        for note, degree in zip(scale_notes, scale_degrees):
-            st.write(f"{note}: {degree}")
+        st.write("### Scale Notes and Degrees")
+        display_scale_notes_and_degrees(scale_notes, scale_degrees)
+
 
 main_streamlit_layout()
 
