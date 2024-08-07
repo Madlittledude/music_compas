@@ -15,18 +15,18 @@ from chords import  mode_intervals, parallel_modes, get_borrowed_chords, earth_n
 from fretboard_visual import guitar_fretboard_visualization
 
 
-# Check if navigation query param is set and redirect
-query_params = st.experimental_get_query_params()
-if 'nav' in query_params and query_params['nav'][0] == 'fretboard_select_FREQ':
-    # Redirect to fretboard_select_FREQ.py
-    st.experimental_set_query_params(app='fretboard_select_FREQ')  # This is a placeholder. Adjust according to your actual redirection method.
-    st.stop()
+# # Check if navigation query param is set and redirect
+# query_params = st.experimental_get_query_params()
+# if 'nav' in query_params and query_params['nav'][0] == 'fretboard_select_FREQ':
+#     # Redirect to fretboard_select_FREQ.py
+#     st.experimental_set_query_params(app='fretboard_select_FREQ')  # This is a placeholder. Adjust according to your actual redirection method.
+#     st.stop()
 
-# Navigation sidebar
-with st.sidebar:
-    if st.button('Go to Fretboard Select FREQ'):
-        # Set query param to navigate
-        st.experimental_set_query_params(nav='fretboard_select_FREQ')
+# # Navigation sidebar
+# with st.sidebar:
+#     if st.button('Go to Fretboard Select FREQ'):
+#         # Set query param to navigate
+#         st.experimental_set_query_params(nav='fretboard_select_FREQ')
 
 
 def display_scale_notes_and_degrees(notes, degrees):
