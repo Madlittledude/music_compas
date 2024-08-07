@@ -64,6 +64,10 @@ def calculate_color(degree_index, total_degrees):
 degree_list = list(degree_names.values())
 degree_colors = {degree: calculate_color(index, len(degree_list)) for index, degree in enumerate(degree_list)}
 
+def get_absolute_and_relative_degrees(notes, scale_notes):
+    """Calculates the absolute degrees of the root note and the relative degrees of all notes in a chord."""
+    absolute_degrees = [degree_names.get(scale_notes.index(note) % len(scale_notes), '?') if note in scale_notes else '?' for note in notes]
+    return absolute_degrees
 
 def get_note_degree(root_note, scale_notes):
     """Gets the degree of a note within a given scale."""
@@ -73,22 +77,26 @@ def get_note_degree(root_note, scale_notes):
     return '?'
 
 def display_borrowed_chords(chords, scale_notes):
-    """Displays borrowed chords with color-coded headers based on the root note's degree in the scale."""
+    """Displays borrowed chords with detailed degree information in a visually appealing card format."""
     for root, chord_type, notes, degrees in chords:
-        root_degree = get_note_degree(root, scale_notes)  # Fetch the degree of the root note
-        root_color = degree_colors.get(root_degree, '#FFFFFF')  # Get color based on the degree
+        root_degree_index = scale_notes.index(root) if root in scale_notes else None
+        root_degree = degree_names.get(root_degree_index, '?')
+        root_color = degree_colors.get(root_degree, '#FFFFFF')  # Get color based on the root degree
+        absolute_degrees = get_absolute_and_relative_degrees(notes, scale_notes)
+
         st.markdown(f"""
         <div style='border-radius: 8px; background-color: {root_color}; padding: 20px; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
-            <h3 style='color: black;'>{root} {format_chord_name(chord_type)}</h3>
+            <h3 style='color: black;'>{root} {format_chord_name(chord_type)} - Degree: {root_degree}</h3>
             <div style='display: flex; justify-content: space-around; font-size: 16px;'>""", unsafe_allow_html=True)
-        for note, degree in zip(notes, degrees):
-            note_color = degree_colors.get(degree, '#FFFFFF')  # Use degree to color-code individual notes
+        for note, relative_degree, absolute_degree in zip(notes, degrees, absolute_degrees):
+            note_color = degree_colors.get(relative_degree, '#FFFFFF')  # Use relative degree to color-code individual notes
             st.markdown(f"""
             <div style='text-align: center; margin: 5px;'>
                 <span style='color: black; font-weight: bold;'>{note}</span><br>
-                <sup style='color: {note_color};'>{degree}</sup>
+                <sup style='color: {note_color};'>Rel: {relative_degree} | Abs: {absolute_degree}</sup>
             </div>""", unsafe_allow_html=True)
         st.markdown("</div></div>", unsafe_allow_html=True)
+
 
 
 
