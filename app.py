@@ -96,38 +96,26 @@ def main_streamlit_layout():
                 st.write(f"{b_root} {format_chord_name(b_type)}: {b_notes} = {b_degrees}")
                 if st.checkbox(f"Show fretboard for {b_root} {format_chord_name(b_type)}", key=f'fretboard_borrowed_{b_root}'):
                     guitar_fretboard_visualization(note_colors, b_notes, b_degrees, show_degrees=True)
-    
+
     if st.checkbox('Show Mode Details', key='show_mode_details'):
-        # Ensure the key for mode selection here is unique by appending an identifier
         mode_choice = st.selectbox('Select a mode to explore:', list(mode_intervals.keys()), key='mode_select_details')
+        mode_info = mode_descriptions.get(mode_choice, {'simple': 'No description available.', 'deep': ''})
+        st.subheader(f"Details of {mode_choice} Mode")
+        st.write(f"**Simple Description:** {mode_info['simple']}")
+        st.write(f"**Detailed Description:** {mode_info['deep']}")
+
         scale_notes, scale_degrees = get_scale_notes_and_degrees(mode_choice, root_note)
-        
-        # Creating a better visual presentation for notes and degrees
         st.write("### Scale Notes and Degrees")
         num_notes = len(scale_notes)
-        # Use columns to create a grid-like appearance
         cols_notes = st.columns(num_notes)
         cols_degrees = st.columns(num_notes)
-        
-        # Using markdown with enhanced CSS for better control over typography and layout
+
         for col_note, note in zip(cols_notes, scale_notes):
-            col_note.markdown(f"""
-            <div style='text-align: center; 
-                        border: 2px solid gray; 
-                        padding: 8px;
-                        font-weight: bold; 
-                        font-size: 16px;'>
-                {note}
-            </div>""", unsafe_allow_html=True)
+            col_note.markdown(f"<div style='text-align: center; border: 2px solid gray; padding: 8px; font-weight: bold; font-size: 16px;'>{note}</div>", unsafe_allow_html=True)
         
         for col_degree, degree in zip(cols_degrees, scale_degrees):
-            col_degree.markdown(f"""
-            <div style='text-align: center; 
-                        border: 2px solid gray; 
-                        padding: 8px; 
-                        font-size: 14px;'>
-                {degree}
-            </div>""", unsafe_allow_html=True)
+            col_degree.markdown(f"<div style='text-align: center; border: 2px solid gray; padding: 8px; font-size: 14px;'>{degree}</div>", unsafe_allow_html=True)
+   
     
 
 
