@@ -106,3 +106,36 @@ def interval_to_degree(interval):
         # Add more as necessary
     }
     return degree_names.get(interval, '?')
+
+
+mode_descriptions = {
+    "Ionian": {
+        "simple": "Uplifting, joyful, and stable, suitable for a wide range of musical genres.",
+        "deep": "Ionian mode, synonymous with the major scale, establishes a bright tonal foundation, characterized by a sequence of whole and half steps that create a clear, consonant harmonic structure. This mode fosters a sense of resolution and completeness, making it ideal for conveying feelings of happiness and reassurance."
+    },
+    "Dorian": {
+        "simple": "Jazzy, bluesy, and soulful with a touch of melancholy.",
+        "deep": "Dorian mode modifies the natural minor scale by raising the sixth degree, introducing a lighter, more hopeful quality amidst its overall minor character. This alteration allows for a complex interplay of melancholy and optimism, suitable for expressive genres like jazz and blues where emotional depth and nuance are paramount."
+    },
+    "Phrygian": {
+        "simple": "Dark, tense, and exotic, fitting for flamenco and metal.",
+        "deep": "Phrygian mode, with its lowered second degree, provides a stark contrast to the foundational major scale, offering a sound that is both exotic and foreboding. This mode's intervallic structure, particularly the minor second interval, creates a tense and mysterious atmosphere, ideal for genres that rely heavily on drama and intensity."
+    },
+    "Lydian": {
+        "simple": "Ethereal, dreamy, and floating, often used in film scores.",
+        "deep": "Lydian mode stands out with its raised fourth degree, diverging from the major scale to produce an airy, mystical quality. This single alteration affects the tonal gravity of the scale, reducing tension and creating an open, unresolved sonic landscape that is ideal for invoking a sense of wonder and exploration."
+    },
+    "Mixolydian": {
+        "simple": "Bluesy, relaxed, with a slightly unresolved tonal quality.",
+        "deep": "Mixolydian mode alters the major scale by lowering the seventh degree, which introduces a subtle tension and an unfinished quality to the otherwise bright major tonality. This mode is favored in music that thrives on a laid-back, yet emotionally complex soundscape, such as blues, rock, and folk."
+    },
+    "Aeolian": {
+        "simple": "Sorrowful, introspective, and richly nuanced.",
+        "deep": "Aeolian mode, or the natural minor scale, deepens the emotional palette of music by employing a scale structure that naturally conveys sadness and introspection through its use of lowered third, sixth, and seventh degrees. This mode's capacity to articulate a broad spectrum of deep emotions makes it a fundamental tool in both classical and contemporary music composition."
+    },
+    "Locrian": {
+        "simple": "Dissonant, unstable, and tense, rarely used in mainstream music.",
+        "deep": "Locrian mode is characterized by a diminished fifth, which destabilizes the tonal center and creates inherent dissonance and tension within the scale. Due to its challenging nature, Locrian is seldom employed as a principal mode but is used effectively to create eerie and unsettling atmospheres in avant-garde and experimental music settings."
+    }
+}
+
