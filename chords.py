@@ -96,10 +96,7 @@ def calculate_chord_notes(root_note, chord_type):
         degrees.append(interval_to_degree(interval))
     return chord_notes, degrees
 
-
-
-def interval_to_degree(interval):
-    degree_names = {
+degree_names = {
         0: 'R',
         1: 'b2',
         2: '2',
@@ -122,6 +119,9 @@ def interval_to_degree(interval):
         21: '13',
         # Add more as necessary
     }
+
+def interval_to_degree(interval):
+
     return degree_names.get(interval, '?')
 
 
