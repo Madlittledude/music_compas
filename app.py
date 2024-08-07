@@ -47,27 +47,25 @@ def display_scale_notes_and_degrees(notes, degrees):
         col_note.markdown(f"<div style='text-align: center; border: 2px solid gray; padding: 8px;'><b>{note}</b></div>", unsafe_allow_html=True)
         col_degree.markdown(f"<div style='text-align: center; border: 2px solid gray; padding: 8px;'><b>{degree}</b></div>", unsafe_allow_html=True)
 
-degree_colors = {
-        'R': '#ff0000',  # Red
-        'b2': '#ff4000',  # Red-orange
-        '2': '#ff8000',  # Orange
-        'b3': '#ffbf00',  # Orange-yellow
-        '3': '#ffff00',  # Yellow
-        '4': '#bfff00',  # Yellow-green
-        'b5': '#80ff00',  # Green-yellow
-        '5': '#40ff00',  # Green
-        'b6/#5': '#00ff40',  # Green-cyan
-        '6': '#00ff80',  # Cyan
-        'b7': '#00bfff',  # Cyan-blue
-        '7': '#0080ff',  # Blue
-        '9': '#0040ff',  # Dark blue
-        'b9': '#4000ff',  # Indigo
-        '#9': '#8000ff',  # Violet
-        '11': '#bf00ff',  # Purple
-        '#11': '#ff00bf',  # Magenta
-        'b13': '#ff0080',  # Red-magenta
-        '13': '#ff0040'   # Deep red
-    }
+def calculate_color(degree_index, total_degrees):
+    if degree_index <= total_degrees / 2:
+        # Transition from red to green
+        red = 255 - (255 * (2 * degree_index / total_degrees))
+        green = 255 * (2 * degree_index / total_degrees)
+        blue = 0
+    else:
+        # Transition from green to blue
+        red = 0
+        green = 255 - (255 * ((2 * (degree_index - total_degrees / 2) / total_degrees)))
+        blue = 255 * ((2 * (degree_index - total_degrees / 2) / total_degrees))
+    
+    return f'#{int(red):02x}{int(green):02x}{int(blue):02x}'
+
+# Generate colors for each degree based on their index
+degree_list = list(degree_names.values())
+degree_colors = {degree: calculate_color(index, len(degree_list)) for index, degree in enumerate(degree_list)}
+
+
 def get_note_degree(root_note, scale_notes):
     """Gets the degree of a note within a given scale."""
     if root_note in scale_notes:
@@ -78,14 +76,14 @@ def get_note_degree(root_note, scale_notes):
 def display_borrowed_chords(chords, scale_notes):
     """Displays borrowed chords with color-coded headers based on the root note's degree in the scale."""
     for root, chord_type, notes, degrees in chords:
-        degree = get_note_degree(root, scale_notes)  # Fetch the degree of the root note
-        root_color = degree_colors.get(degree, '#FFFFFF')  # Get color based on the degree
+        root_degree = get_note_degree(root, scale_notes)  # Fetch the degree of the root note
+        root_color = degree_colors.get(root_degree, '#FFFFFF')  # Get color based on the degree
         st.markdown(f"<div style='border-radius: 8px; background-color: {root_color}; padding: 10px; margin-bottom: 10px;'>", unsafe_allow_html=True)
         st.markdown(f"<h3 style='color: black;'>{root} {format_chord_name(chord_type)}</h3>", unsafe_allow_html=True)
         cols = st.columns(len(notes))
         for col, note, degree in zip(cols, notes, degrees):
-            color = degree_colors.get(degree, '#FFFFFF')  # Use degree to color-code individual notes
-            col.markdown(f"<div style='text-align: center; font-size: 16px;'><span style='color: black;'><b>{note}</b></span><br><sup style='color: {color};'>{degree}</sup></div>", unsafe_allow_html=True)
+            note_color = degree_colors.get(degree, '#FFFFFF')  # Use degree to color-code individual notes
+            col.markdown(f"<div style='text-align: center; font-size: 16px;'><span style='color: black;'><b>{note}</b></span><br><sup style='color: {note_color};'>{degree}</sup></div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
 
