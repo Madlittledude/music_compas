@@ -31,8 +31,11 @@ mode_intervals = {
     'Aeolian': [0, 2, 3, 5, 7, 8, 10],
     'Locrian': [0, 1, 3, 5, 6, 8, 10],
     'Harmonic Minor': [0, 2, 3, 5, 7, 8, 11],
-    'Phrygian Dominant': [0, 1, 4, 5, 7, 8, 10]
+    'Melodic Minor Ascending': [0, 2, 3, 5, 7, 9, 11],
+    'Melodic Minor Descending': [0, 2, 4, 5, 7, 8, 10]  # Same as natural minor when descending, but included so I don't need to write logic for that similarity. 
+                                                        # Idk what it'd be for yet. Maybe a function to detect a similarity in interval pattern with something else...
 }
+
 
 
 
