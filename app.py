@@ -6,7 +6,7 @@ import streamlit as st
 from circle_of_fifths import draw_circle_of_fifths
 
 ### For our mode notes and degrees 
-from note_sets import get_scale_notes_and_degrees, mode_descriptions, adjust_degrees_for_b6_or_sharp5
+from note_sets import get_scale_notes_and_degrees, mode_descriptions
 
 ### CHORD imports
 from chords import get_scale_notes_and_degrees, mode_intervals, parallel_modes, get_borrowed_chords, earth_note_colors, _light_note_colors, chord_intervals, calculate_chord_notes, circle_of_fifths_notes, format_chord_name,progression_to_root_notes, chord_symbols, get_chord_type_from_part
