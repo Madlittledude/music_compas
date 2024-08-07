@@ -143,39 +143,43 @@ mode_descriptions = {
     }
 }
 
+
 def get_scale_notes_and_degrees(mode, root_note, ascending=True):
     """Retrieve scale notes and corresponding degrees for a given mode starting from the root note."""
     intervals = mode_intervals.get(mode, [])
     if not ascending and 'Melodic Minor' in mode:
         intervals = mode_intervals.get(mode.replace("Ascending", "Descending"), [])
+
     notes = []
     degrees = []
     root_index = chromatic_scale.index(root_note)
+    five_in_set = False  # To check if '5' has already appeared
+
     for interval in intervals:
         note_index = (root_index + interval) % 12
         note = chromatic_scale[note_index]
         degree = interval_to_degree(interval)
+
+        # Check if the current degree is '5' or not
+        if degree == '5':
+            five_in_set = True
+
+        # Append note and adjusted degree information
         notes.append(note)
         degrees.append(degree)
-    return notes, degrees
 
-
-def adjust_degrees_for_b6_or_sharp5(degrees):
-    """
-    Adjusts the degree labels from 'b6 / #5' to 'b6' if '5' is present, otherwise to '#5'. Cuz i couldnt figure out another way. this probably hints at a larger isseu with my method. oh well. let's fuck around...
-    Args:
-        degrees (list of str): List of initial degree labels including 'b6 / #5'.
-    
-    Returns:
-        list of str: List of adjusted degree labels.
-    """
-    five_in_set = '5' in degrees
+    # After collecting all notes and degrees, adjust the degree for b6 / #5
     adjusted_degrees = []
     for degree in degrees:
         if degree == 'b6 / #5':
-            adjusted_degrees.append('b6' if five_in_set else '#5')
+            if five_in_set:
+                adjusted_degrees.append('b6')
+            else:
+                adjusted_degrees.append('#5')
         else:
             adjusted_degrees.append(degree)
-    return adjusted_degrees
+
+    return notes, adjusted_degrees
+
 
 
