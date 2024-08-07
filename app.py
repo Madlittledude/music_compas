@@ -5,7 +5,7 @@ import streamlit as st
 ### CIRCLE OF FIFTHS imports
 from circle_of_fifths import draw_circle_of_fifths
 
-from note_sets.py import mode_intervals 
+
 ### CHORD imports
 from chords import mode_intervals, parallel_modes, get_borrowed_chords, earth_note_colors, _light_note_colors, chord_intervals, calculate_chord_notes, circle_of_fifths_notes, format_chord_name,progression_to_root_notes, chord_symbols, get_chord_type_from_part
 
