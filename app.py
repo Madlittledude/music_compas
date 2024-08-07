@@ -9,7 +9,7 @@ from circle_of_fifths import draw_circle_of_fifths
 from note_sets import get_scale_notes_and_degrees, mode_descriptions
 
 ### CHORD imports
-from chords import  mode_intervals, parallel_modes, get_borrowed_chords, earth_note_colors, _light_note_colors, chord_intervals, calculate_chord_notes, circle_of_fifths_notes, format_chord_name,progression_to_root_notes, chord_symbols, get_chord_type_from_part
+from chords import  get_degree_color, mode_intervals, parallel_modes, get_borrowed_chords, earth_note_colors, _light_note_colors, chord_intervals, calculate_chord_notes, circle_of_fifths_notes, format_chord_name,progression_to_root_notes, chord_symbols, get_chord_type_from_part
 
 ### FRETBOARD imports
 from fretboard_visual import guitar_fretboard_visualization
@@ -48,25 +48,42 @@ def display_scale_notes_and_degrees(notes, degrees):
         col_degree.markdown(f"<div style='text-align: center; border: 2px solid gray; padding: 8px;'><b>{degree}</b></div>", unsafe_allow_html=True)
 
 
-
 def display_borrowed_chords(chords):
-    """Displays borrowed chords in a visually appealing format, each note with its degree directly underneath."""
+    """Displays borrowed chords with color-coded degrees."""
     for root, chord_type, notes, degrees in chords:
-        # Create a card for each chord
-        st.markdown(f"<div style='background-color: #f8f9fa; border-radius: 10px; padding: 20px; margin: 10px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>", unsafe_allow_html=True)
-        st.markdown(f"<h3 style='color: #333;'>{root} {format_chord_name(chord_type)}</h3>", unsafe_allow_html=True)
+        st.markdown(f"#### {root} {format_chord_name(chord_type)}", unsafe_allow_html=True)
         num_notes = len(notes)
-        cols = st.columns(num_notes)  # Create a column for each note in the chord
+        cols = st.columns(num_notes)
         
-        # Display each note with its corresponding degree directly below it, with color coding
         for col, note, degree in zip(cols, notes, degrees):
+            degree_color = get_degree_color(degree)
             col.markdown(f"""
-            <div style='text-align: center; margin-top: 10px;'>
-                <p style='font-size: 18px; font-weight: bold; color: #4A90E2;'>{note}</p>
-                <p style='color: #6C757D;'><sup>{degree}</sup></p>
+            <div style='text-align: center;'>
+                <span style='font-size: 16px; font-weight: bold;'>{note}</span><br>
+                <span style='font-size: 14px; font-weight: bold; color: {degree_color};'>{degree}</span>
             </div>
             """, unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)  # Close the card div
+        st.markdown("---")  # Separator for visual clarity
+
+
+# def display_borrowed_chords(chords):
+#     """Displays borrowed chords in a visually appealing format, each note with its degree directly underneath."""
+#     for root, chord_type, notes, degrees in chords:
+#         # Create a card for each chord
+#         st.markdown(f"<div style='background-color: #f8f9fa; border-radius: 10px; padding: 20px; margin: 10px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>", unsafe_allow_html=True)
+#         st.markdown(f"<h3 style='color: #333;'>{root} {format_chord_name(chord_type)}</h3>", unsafe_allow_html=True)
+#         num_notes = len(notes)
+#         cols = st.columns(num_notes)  # Create a column for each note in the chord
+        
+#         # Display each note with its corresponding degree directly below it, with color coding
+#         for col, note, degree in zip(cols, notes, degrees):
+#             col.markdown(f"""
+#             <div style='text-align: center; margin-top: 10px;'>
+#                 <p style='font-size: 18px; font-weight: bold; color: #4A90E2;'>{note}</p>
+#                 <p style='color: #6C757D;'><sup>{degree}</sup></p>
+#             </div>
+#             """, unsafe_allow_html=True)
+#         st.markdown("</div>", unsafe_allow_html=True)  # Close the card div
 
 def format_chord_name(chord_type):
     """Formats the chord type to use abbreviations like 'M' for Maj7, 'm' for minor, etc."""
