@@ -159,3 +159,23 @@ def get_scale_notes_and_degrees(mode, root_note, ascending=True):
         degrees.append(degree)
     return notes, degrees
 
+
+def adjust_degrees_for_b6_or_sharp5(degrees):
+    """
+    Adjusts the degree labels from 'b6 / #5' to 'b6' if '5' is present, otherwise to '#5'. Cuz i couldnt figure out another way. this probably hints at a larger isseu with my method. oh well. let's fuck around...
+    Args:
+        degrees (list of str): List of initial degree labels including 'b6 / #5'.
+    
+    Returns:
+        list of str: List of adjusted degree labels.
+    """
+    five_in_set = '5' in degrees
+    adjusted_degrees = []
+    for degree in degrees:
+        if degree == 'b6 / #5':
+            adjusted_degrees.append('b6' if five_in_set else '#5')
+        else:
+            adjusted_degrees.append(degree)
+    return adjusted_degrees
+
+
