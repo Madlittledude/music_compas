@@ -52,83 +52,68 @@ progression_choices = {
 
 
 
+
 def main_streamlit_layout():
-    # Initial selections for root note and chord type
     root_note = st.selectbox('Select the root note:', circle_of_fifths_notes, key='root_note_select')
     chord_type = st.selectbox('Select the chord type:', list(chord_intervals.keys()), key='chord_type_select')
-    
-    # Calculate the chord notes based on the selections
-    chord_notes,chord_degrees = calculate_chord_notes(root_note, chord_type)
-    
-    # Display the basic chord information
+    chord_notes, chord_degrees = calculate_chord_notes(root_note, chord_type)
     st.write(f"{root_note} {format_chord_name(chord_type)}: {chord_notes} = {chord_degrees}")
     
-    # Checkbox to show the circle of fifths
     if st.checkbox('Show Circle of Fifths', key='show_circle_of_fifths'):
-        
-        draw_circle_of_fifths(root_note, chord_notes,chord_degrees)
+        draw_circle_of_fifths(root_note, chord_notes, chord_degrees)
     
-    # Selecting the color palette
     selected_palette = st.selectbox('Select the color palette:', ['Soft', 'Earth'], key='color_palette_select')
     note_colors = earth_note_colors if selected_palette == 'Earth' else _light_note_colors
 
-    # Checkbox to show guitar fretboard visualization
     if st.checkbox('Show guitar fretboard visualization', key='guitar_fretboard_visualization'):
-        guitar_fretboard_visualization(note_colors, chord_notes,chord_degrees, show_degrees=True)
+        guitar_fretboard_visualization(note_colors, chord_notes, chord_degrees, show_degrees=True)
 
-    if st.checkbox('Show Chord Progression', key='chord_progression_GO'):
-        progression_choices_with_custom = {
-            **progression_choices,
-            'Custom -----------------------(Enter Your Own)': 'Custom'
-        }
-        selected_description = st.selectbox(
-            'Select the chord progression:',
-            list(progression_choices_with_custom.keys()),  # Display descriptions including Custom option
-            key='progression_select'
-        )
-
-        if selected_description == 'Custom -----------------------(Enter Your Own)':
-            allowable_symbols = ', '.join([symbol for symbol in chord_symbols.values() if symbol])
-            symbol_instructions = f"Allowed symbols: {allowable_symbols}. Use uppercase for major chords and lowercase for minor chords."
-            st.text("Enter your custom chord progression using the format 'I-IV-V'. Include any of the following symbols after the Roman numeral as needed:")
-            st.text(symbol_instructions)
-            custom_progression = st.text_input("Custom Chord Progression", "")
-            if custom_progression:
-                selected_progression = custom_progression
-            else:
-                selected_progression = ""
-        else:
-            selected_progression = progression_choices[selected_description]
-
-        if selected_progression:
-            progression_parts = selected_progression.split('-')
-            for index, part in enumerate(progression_parts):
-                chord_type = get_chord_type_from_part(part)
-                progression_root_notes = progression_to_root_notes(root_note, part)
-                for prog_root in progression_root_notes:
-                    chord_notes, chord_degrees = calculate_chord_notes(prog_root, chord_type)
-                    display_symbol = chord_symbols[chord_type]
-                    st.write(f"{prog_root} {display_symbol}: {chord_notes} = {chord_degrees}")
-                    # Checkbox for each chord's guitar fretboard visualization
-                    if st.checkbox(f"Show fretboard for {prog_root} {display_symbol}", key=f'fretboard_{index}'):
-                        guitar_fretboard_visualization(note_colors, chord_notes, chord_degrees, show_degrees=True)
-    
-    st.write("\nChecking parallel modes:", parallel_modes)
-
-        # Checkbox to show borrowed chords
     if st.checkbox('Show Borrowed Chords', key='show_borrowed_chords'):
         mode_choice = st.selectbox('Select the mode to borrow from:', list(parallel_modes.keys()), key='mode_select')
         borrowed_chords = get_borrowed_chords(mode_choice, root_note)
-        
         if borrowed_chords:
             st.write(f"Borrowed chords from {mode_choice}:")
             for (b_root, b_type, b_notes, b_degrees) in borrowed_chords:
                 st.write(f"{b_root} {format_chord_name(b_type)}: {b_notes} = {b_degrees}")
                 if st.checkbox(f"Show fretboard for {b_root} {format_chord_name(b_type)}", key=f'fretboard_borrowed_{b_root}'):
                     guitar_fretboard_visualization(note_colors, b_notes, b_degrees, show_degrees=True)
-    
+
+        # Displaying mode descriptions and comparing with parallel mode
+        if st.checkbox('Show Mode Description and Comparison', key=f'show_description_{mode_choice}'):
+            parallel_mode_choice = parallel_modes.get(mode_choice, None)
+            mode_info = mode_descriptions.get(mode_choice, {'simple': 'No description available.', 'deep': 'No detailed description available.'})
+            parallel_mode_info = mode_descriptions.get(parallel_mode_choice, {'simple': 'No description available.', 'deep': 'No detailed description available.'})
+            
+            st.subheader("Mode Description")
+            st.write("Simple Description:")
+            st.write(mode_info['simple'])
+            st.write("Detailed Description:")
+            st.write(mode_info['deep'])
+            
+            st.subheader("Parallel Mode Description")
+            st.write("Simple Description:")
+            st.write(parallel_mode_info['simple'])
+            st.write("Detailed Description:")
+            st.write(parallel_mode_info['deep'])
+            
+            st.subheader("Scale Degrees Comparison")
+            st.write(f"{mode_choice} Degrees:")
+            for degree in mode_intervals[mode_choice]:
+                note_index = (chromatic_scale.index(root_note) + degree) % 12
+                note_name = chromatic_scale[note_index]
+                degree_name = interval_to_degree(degree)
+                st.write(f"{note_name}: {degree_name}")
+            
+            if parallel_mode_choice:
+                st.write(f"{parallel_mode_choice} Degrees:")
+                for degree in mode_intervals[parallel_mode_choice]:
+                    note_index = (chromatic_scale.index(root_note) + degree) % 12
+                    note_name = chromatic_scale[note_index]
+                    degree_name = interval_to_degree(degree)
+                    st.write(f"{note_name}: {degree_name}")
 
 main_streamlit_layout()
+
 
 
 #     circle_of_fifths_notes = ['C', 'G', 'D', 'A', 'E', 'B', 'F♯/Gb', 'Db', 'Ab', 'Eb', 'Bb', 'F']
