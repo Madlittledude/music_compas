@@ -68,24 +68,25 @@ degree_colors = {
         'b13': '#ff0080',  # Red-magenta
         '13': '#ff0040'   # Deep red
     }
-def display_borrowed_chords(chords):
-    """Displays borrowed chords in a visually appealing card format, each card color-coded by the chord's degree."""
-    for index, (root, chord_type, notes, degrees) in enumerate(chords):
-        if index == 0:
-            # This is the root chord
-            header_color = degree_colors.get(degrees[0], '#FFFFFF')  # Color based on the first degree
-        else:
-            # Other chords, potentially use a different color logic
-            header_color = degree_colors.get(degrees[0], '#DDDDDD')  # Default to a lighter color
+def get_note_degree(root_note, scale_notes):
+    """Gets the degree of a note within a given scale."""
+    if root_note in scale_notes:
+        index = scale_notes.index(root_note)
+        return degree_names.get(index, '?')
+    return '?'
 
-        st.markdown(f"<div style='border-radius: 8px; background-color: {header_color}; padding: 10px; margin: 5px;'>", unsafe_allow_html=True)
+def display_borrowed_chords(chords, scale_notes):
+    """Displays borrowed chords with color-coded headers based on the root note's degree in the scale."""
+    for root, chord_type, notes, degrees in chords:
+        degree = get_note_degree(root, scale_notes)  # Fetch the degree of the root note
+        root_color = degree_colors.get(degree, '#FFFFFF')  # Get color based on the degree
+        st.markdown(f"<div style='border-radius: 8px; background-color: {root_color}; padding: 10px; margin-bottom: 10px;'>", unsafe_allow_html=True)
         st.markdown(f"<h3 style='color: black;'>{root} {format_chord_name(chord_type)}</h3>", unsafe_allow_html=True)
         cols = st.columns(len(notes))
         for col, note, degree in zip(cols, notes, degrees):
-            color = degree_colors.get(degree, '#FFFFFF')  # Color for the degrees
-            col.markdown(f"<div style='text-align: center; font-size: 16px;'><span style='color: black;'><b>{note}</b></span><br><span style='color: {color};'>{degree}</span></div>", unsafe_allow_html=True)
+            color = degree_colors.get(degree, '#FFFFFF')  # Use degree to color-code individual notes
+            col.markdown(f"<div style='text-align: center; font-size: 16px;'><span style='color: black;'><b>{note}</b></span><br><sup style='color: {color};'>{degree}</sup></div>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
-
 
 
 # def display_borrowed_chords(chords):
@@ -166,11 +167,19 @@ def main_streamlit_layout():
 
 
 
-       
+           if st.checkbox('Show Borrowed Chords', key='show_borrowed_chords'):
+        mode_choice = st.selectbox('Select the mode to borrow from:', list(parallel_modes.keys()), key='mode_select_borrowed_chords')
+        borrowed_chords = get_borrowed_chords(mode_choice, root_note)
+        scale_notes, _ = get_scale_notes_and_degrees(mode_choice, root_note)  # Get scale notes for color mapping
+        if borrowed_chords:
+            st.write(f"Borrowed chords from {mode_choice}:")
+            display_borrowed_chords(borrowed_chords, scale_notes)
         
     if st.checkbox('Show Borrowed Chords', key='show_borrowed_chords'):
         mode_choice = st.selectbox('Select the mode to borrow from:', list(parallel_modes.keys()), key='mode_selectt_borrowed_chords')
         borrowed_chords = get_borrowed_chords(mode_choice,root_note)
+        scale_notes, _ = get_scale_notes_and_degrees(mode_choice, root_note)  # Get scale notes for color mapping
+
         if borrowed_chords:
             st.write(f"Borrowed chords from {mode_choice}:")
             for (b_root, b_type, b_notes, b_degrees) in borrowed_chords:
@@ -178,7 +187,7 @@ def main_streamlit_layout():
                 if st.checkbox(f"Show fretboard for {b_root} {format_chord_name(b_type)}", key=f'fretboard_borrowed_{b_root}'):
                     guitar_fretboard_visualization(note_colors, b_notes, b_degrees, show_degrees=True)
                     
-        display_borrowed_chords(borrowed_chords)
+        display_borrowed_chords(borrowed_chords,scale_notes)
 
     if st.checkbox('Show Mode Details', key='show_mode_details'):
         mode_choice = st.selectbox('Select a mode to explore:', list(mode_intervals.keys()), key='mode_select_details')
