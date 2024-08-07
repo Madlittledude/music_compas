@@ -7,7 +7,7 @@ from circle_of_fifths import draw_circle_of_fifths
 
 
 ### CHORD imports
-from chords import earth_note_colors, _light_note_colors, chord_intervals, calculate_chord_notes, circle_of_fifths_notes, format_chord_name,progression_to_root_notes, chord_symbols, get_chord_type_from_part
+from chords import get_borrowed_chords, earth_note_colors, _light_note_colors, chord_intervals, calculate_chord_notes, circle_of_fifths_notes, format_chord_name,progression_to_root_notes, chord_symbols, get_chord_type_from_part
 
 ### FRETBOARD imports
 from fretboard_visual import guitar_fretboard_visualization
@@ -112,6 +112,19 @@ def main_streamlit_layout():
                     # Checkbox for each chord's guitar fretboard visualization
                     if st.checkbox(f"Show fretboard for {prog_root} {display_symbol}", key=f'fretboard_{index}'):
                         guitar_fretboard_visualization(note_colors, chord_notes, chord_degrees, show_degrees=True)
+
+        # Checkbox to show borrowed chords
+    if st.checkbox('Show Borrowed Chords', key='show_borrowed_chords'):
+        mode_choice = st.selectbox('Select the mode to borrow from:', list(parallel_modes.keys()), key='mode_select')
+        borrowed_chords = get_borrowed_chords(mode_choice, root_note)
+        
+        if borrowed_chords:
+            st.write(f"Borrowed chords from {mode_choice}:")
+            for (b_root, b_type, b_notes, b_degrees) in borrowed_chords:
+                st.write(f"{b_root} {format_chord_name(b_type)}: {b_notes} = {b_degrees}")
+                if st.checkbox(f"Show fretboard for {b_root} {format_chord_name(b_type)}", key=f'fretboard_borrowed_{b_root}'):
+                    guitar_fretboard_visualization(note_colors, b_notes, b_degrees, show_degrees=True)
+    
 
 main_streamlit_layout()
 
