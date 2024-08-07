@@ -9,7 +9,7 @@ from circle_of_fifths import draw_circle_of_fifths
 from note_sets import get_scale_notes_and_degrees, mode_descriptions
 
 ### CHORD imports
-from chords import  get_degree_color, mode_intervals, parallel_modes, get_borrowed_chords, earth_note_colors, _light_note_colors, chord_intervals, calculate_chord_notes, circle_of_fifths_notes, format_chord_name,progression_to_root_notes, chord_symbols, get_chord_type_from_part
+from chords import   mode_intervals, parallel_modes, get_borrowed_chords, earth_note_colors, _light_note_colors, chord_intervals, calculate_chord_notes, circle_of_fifths_notes, format_chord_name,progression_to_root_notes, chord_symbols, get_chord_type_from_part
 
 ### FRETBOARD imports
 from fretboard_visual import guitar_fretboard_visualization
@@ -47,7 +47,27 @@ def display_scale_notes_and_degrees(notes, degrees):
         col_note.markdown(f"<div style='text-align: center; border: 2px solid gray; padding: 8px;'><b>{note}</b></div>", unsafe_allow_html=True)
         col_degree.markdown(f"<div style='text-align: center; border: 2px solid gray; padding: 8px;'><b>{degree}</b></div>", unsafe_allow_html=True)
 
-
+degree_colors = {
+        'R': '#ff0000',  # Red
+        'b2': '#ff4000',  # Red-orange
+        '2': '#ff8000',  # Orange
+        'b3': '#ffbf00',  # Orange-yellow
+        '3': '#ffff00',  # Yellow
+        '4': '#bfff00',  # Yellow-green
+        'b5': '#80ff00',  # Green-yellow
+        '5': '#40ff00',  # Green
+        'b6/#5': '#00ff40',  # Green-cyan
+        '6': '#00ff80',  # Cyan
+        'b7': '#00bfff',  # Cyan-blue
+        '7': '#0080ff',  # Blue
+        '9': '#0040ff',  # Dark blue
+        'b9': '#4000ff',  # Indigo
+        '#9': '#8000ff',  # Violet
+        '11': '#bf00ff',  # Purple
+        '#11': '#ff00bf',  # Magenta
+        'b13': '#ff0080',  # Red-magenta
+        '13': '#ff0040'   # Deep red
+    }
 def display_borrowed_chords(chords):
     """Displays borrowed chords in a visually appealing card format, each card color-coded by the chord's degree."""
     for root, chord_type, notes, degrees in chords:
