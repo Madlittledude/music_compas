@@ -1,5 +1,5 @@
 import streamlit as st
-from note_sets import circle_of_fifths_notes, chromatic_scale, mode_intervals 
+from note_sets import circle_of_fifths_notes, chromatic_scale, mode_intervals, adjust_degrees_for_b6_or_sharp5
 """
 Note on Chord Notation Simplification:
 In this implementation, we use a simplified model for chord notation that combines sharp(#) and flat(b) symbols together (e.g., A#/Bb) for enharmonic equivalents. This approach allows for a more straightforward representation and understanding of chords without delving into the complexities of classical music theory which distinguishes between enharmonically equivalent notes based on context (e.g., G# vs. Ab).
