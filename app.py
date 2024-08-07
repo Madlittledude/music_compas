@@ -49,20 +49,24 @@ def display_scale_notes_and_degrees(notes, degrees):
 
 
 
-def display_borrowed_chords(chords,root_note):
+def display_borrowed_chords(chords):
     """Displays borrowed chords in a visually appealing format, each note with its degree directly underneath."""
-    
     for root, chord_type, notes, degrees in chords:
-        st.write(f"{root_note} {format_chord_name(chord_type)}: {notes} = {degrees}")
-    
+        # Create a card for each chord
+        st.markdown(f"<div style='background-color: #f8f9fa; border-radius: 10px; padding: 20px; margin: 10px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>", unsafe_allow_html=True)
+        st.markdown(f"<h3 style='color: #333;'>{root} {format_chord_name(chord_type)}</h3>", unsafe_allow_html=True)
         num_notes = len(notes)
         cols = st.columns(num_notes)  # Create a column for each note in the chord
         
-        # Display each note with its corresponding degree directly below it
+        # Display each note with its corresponding degree directly below it, with color coding
         for col, note, degree in zip(cols, notes, degrees):
-            col.markdown(f"<div style='text-align: center;'>{note}<br><sup>{degree}</sup></div>", unsafe_allow_html=True)
-
-        st.markdown("---")  # Adds a horizontal line for separation between chords
+            col.markdown(f"""
+            <div style='text-align: center; margin-top: 10px;'>
+                <p style='font-size: 18px; font-weight: bold; color: #4A90E2;'>{note}</p>
+                <p style='color: #6C757D;'><sup>{degree}</sup></p>
+            </div>
+            """, unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)  # Close the card div
 
 def format_chord_name(chord_type):
     """Formats the chord type to use abbreviations like 'M' for Maj7, 'm' for minor, etc."""
