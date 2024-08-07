@@ -5,6 +5,8 @@ import streamlit as st
 ### CIRCLE OF FIFTHS imports
 from circle_of_fifths import draw_circle_of_fifths
 
+### For our mode notes and degrees 
+from note_sets import get_scale_notes_and_degrees
 
 ### CHORD imports
 from chords import mode_intervals, parallel_modes, get_borrowed_chords, earth_note_colors, _light_note_colors, chord_intervals, calculate_chord_notes, circle_of_fifths_notes, format_chord_name,progression_to_root_notes, chord_symbols, get_chord_type_from_part
@@ -78,39 +80,18 @@ def main_streamlit_layout():
                 if st.checkbox(f"Show fretboard for {b_root} {format_chord_name(b_type)}", key=f'fretboard_borrowed_{b_root}'):
                     guitar_fretboard_visualization(note_colors, b_notes, b_degrees, show_degrees=True)
 
-        # Displaying mode descriptions and comparing with parallel mode
-        if st.checkbox('Show Mode Description and Comparison', key=f'show_description_{mode_choice}'):
-            parallel_mode_choice = parallel_modes.get(mode_choice, None)
-            mode_info = mode_descriptions.get(mode_choice, {'simple': 'No description available.', 'deep': 'No detailed description available.'})
-            parallel_mode_info = mode_descriptions.get(parallel_mode_choice, {'simple': 'No description available.', 'deep': 'No detailed description available.'})
-            
-            st.subheader("Mode Description")
-            st.write("Simple Description:")
-            st.write(mode_info['simple'])
-            st.write("Detailed Description:")
-            st.write(mode_info['deep'])
-            
-            st.subheader("Parallel Mode Description")
-            st.write("Simple Description:")
-            st.write(parallel_mode_info['simple'])
-            st.write("Detailed Description:")
-            st.write(parallel_mode_info['deep'])
-            
-            st.subheader("Scale Degrees Comparison")
-            st.write(f"{mode_choice} Degrees:")
-            for degree in mode_intervals[mode_choice]:
-                note_index = (chromatic_scale.index(root_note) + degree) % 12
-                note_name = chromatic_scale[note_index]
-                degree_name = interval_to_degree(degree)
-                st.write(f"{note_name}: {degree_name}")
-            
-            if parallel_mode_choice:
-                st.write(f"{parallel_mode_choice} Degrees:")
-                for degree in mode_intervals[parallel_mode_choice]:
-                    note_index = (chromatic_scale.index(root_note) + degree) % 12
-                    note_name = chromatic_scale[note_index]
-                    degree_name = interval_to_degree(degree)
-                    st.write(f"{note_name}: {degree_name}")
+    # New section for selecting and displaying mode descriptions and scale details
+    if st.checkbox('Show Mode Descriptions and Scale Details', key='show_mode_details'):
+        mode_choice = st.selectbox('Select a mode to explore:', list(mode_intervals.keys()), key='mode_select')
+        mode_info = mode_descriptions.get(mode_choice, {'simple': 'No description available.', 'deep': ''})
+        st.subheader(f"Description of {mode_choice} Mode")
+        st.write(mode_info['simple'])
+        st.write(mode_info['deep'])
+
+        # Fetch and display notes and degrees for the selected mode
+        scale_notes, scale_degrees = get_scale_notes_and_degrees(mode_choice, root_note)
+        for note, degree in zip(scale_notes, scale_degrees):
+            st.write(f"{note}: {degree}")
 
 main_streamlit_layout()
 
